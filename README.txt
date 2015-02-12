@@ -55,11 +55,7 @@ This also has a bigcommerce category importer to woocommerce. can be found here 
 
 == Screenshots ==
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-(or jpg, jpeg, gif).
-2. This is the second screen shot
+1. This is what you should see on your wordpress variable product set the "deduct from product stock" to yes and enter the amount in the box below.
 
 == Changelog ==
 
