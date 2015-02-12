@@ -57,6 +57,7 @@ This also has a bigcommerce category importer to woocommerce. can be found here 
 
 1. This is what you should see on your wordpress variable product set the "deduct from product stock" to yes and enter the amount in the box below.
 
+
 == Changelog ==
 
 = 1.0 =
