@@ -21,6 +21,10 @@ So I built this  simple plugin to manage variable product stock and update produ
 Basically it solves this question not mine but it ilustrates the point:  
 http://wordpress.stackexchange.com/questions/72662/woocommerce-fixed-quantity-of-a-product. 
 
+<h3>Addiditionals</h3>
+
+This also has a bigcommerce category importer to woocommerce. can be found here includes/class-import-categories.php you'll need to change line 202 and put your old sites url in there if you want images to be pulled from the descriptions...
+
 == Installation ==
 
 1. Upload `` to the `/wp-content/plugins/` directory
