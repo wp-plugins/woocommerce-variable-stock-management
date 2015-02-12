@@ -24,8 +24,9 @@ http://wordpress.stackexchange.com/questions/72662/woocommerce-fixed-quantity-of
 == Installation ==
 
 1. Upload `` to the `/wp-content/plugins/` directory
-1. Activate the plugin through the "Plugins" menu in WordPress
-1. Place `<?php do_action("gq_hook"); ?>` in your templates
+2. Activate the plugin through the "Plugins" menu in WordPress
+3. Go to your woocommerce store and add a variable product
+4. under the variable product you see to new options Deduct or not which should be set to yes if you want this to deduct from your store & amount to deduct..
 
 == Screenshots ==
 
