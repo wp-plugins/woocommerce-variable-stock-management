@@ -4,7 +4,7 @@ Donate link: http://buildawebdoctor.com
 Tags: Woocommerce, Variable Stock
 Requires at least: 3.5.1
 Tested up to: 4.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,7 +26,7 @@ Donate link: http://buildawebdoctor.com
 Tags: Woocommerce, Variable Stock
 Requires at least: 3.5.1
 Tested up to: 4.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,8 @@ This also has a bigcommerce category importer to woocommerce. can be found here 
 1. This is what you should see on your wordpress variable product set the "deduct from product stock" to yes and enter the amount in the box below
 
 == Changelog ==
+= 1.0.2 =
+* updating tags
 = 1.0.1 =
 * fixed this bug: https://github.com/vimes1984/woocommerce_variable_stock_management/issues/1
 = 1.0 =
@@ -78,6 +80,8 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 2. This is the second screen shot
 
 == Changelog ==
+= 1.0.2 =
+* updating tags
 = 1.0.1 =
 * fixed this bug: https://github.com/vimes1984/woocommerce_variable_stock_management/issues/1
 = 1.0 =
