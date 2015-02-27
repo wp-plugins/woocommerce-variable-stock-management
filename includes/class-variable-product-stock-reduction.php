@@ -8,10 +8,7 @@
  * @link      http://buildawebdoctor.com
  * @copyright 2-7-2015 BAWD
  */
-// If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) { 
-    exit; // Exit if accessed directly
-}
+
 /**
  * GQ class.
  *
@@ -66,7 +63,7 @@ class Variable_product_stock_reduction{
 	private function __construct() {
 
 		//Display Fields
-		add_action( 'woocommerce_product_after_variable_attributes', array($this, 'variable_fields' ), 10, 2 );
+		add_action( 'woocommerce_product_after_variable_attributes', array($this, 'variable_fields' ), 10, 3 );
 		//JS to add fields for new variations
 		add_action( 'woocommerce_product_after_variable_attributes_js', array($this, 'variable_fields_js') );
 		//Save variation fields
@@ -98,7 +95,9 @@ class Variable_product_stock_reduction{
 	 * Create new fields for variations
 	 *
 	*/
-	public function variable_fields( $loop, $variation_data ) {
+	public function variable_fields( $loop, $variation_data, $varPost ) {
+		$post_id 	= $varPost->ID;
+		$meta 		= get_post_meta( $post_id );
 		?>
 		<tr>
 			<td>
@@ -109,7 +108,7 @@ class Variable_product_stock_reduction{
 					'id'          => '_deductornot['.$loop.']', 
 					'label'       => __( 'Deduct from stock total', 'woocommerce' ), 
 					'description' => __( 'Choose a value.', 'woocommerce' ),
-					'value'       => $variation_data['_deductornot'][0],
+					'value'       => $meta['_deductornot'][0],
 					'options' => array(
 						'no'   => __( 'No', 'woocommerce' ),
 						'yes'   => __( 'Yes', 'woocommerce' ),
@@ -129,7 +128,7 @@ class Variable_product_stock_reduction{
 						'label'       => __( 'Amount to deduct from total', 'woocommerce' ), 
 						'desc_tip'    => 'true',
 						'description' => __( 'The amount of stock to deduct from the product total stock upon purchase.', 'woocommerce' ),
-						'value'       => $variation_data['_deductamount'][0],
+						'value'       => $meta['_deductamount'][0],
 						'custom_attributes' => array(
 										'step' 	=> 'any',
 										'min'	=> '0'
