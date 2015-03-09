@@ -3,7 +3,7 @@
 /**
  * GQ
  *
- * import categories for gq
+ * Variable stock managemnet
  *
  * @package   gq
  * @author    vimes1984 <churchill.c.j@gmail.com>
@@ -15,7 +15,7 @@
  * Plugin Name: GQ
  * Plugin URI:  http://buildawebdoctor.com
  * Description: import categories for gq
- * Version:     1.0.2
+ * Version:     1.0.3
  * Author:      vimes1984
  * Author URI:  http://buildawebdoctor.com
  * Text Domain: gq-locale
