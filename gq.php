@@ -3,7 +3,7 @@
 /**
  * GQ
  *
- * import categories for gq
+ * Variable stock managemnet
  *
  * @package   gq
  * @author    vimes1984 <churchill.c.j@gmail.com>
@@ -15,7 +15,7 @@
  * Plugin Name: GQ
  * Plugin URI:  http://buildawebdoctor.com
  * Description: import categories for gq
- * Version:     1.0.0
+ * Version:     1.0.3
  * Author:      vimes1984
  * Author URI:  http://buildawebdoctor.com
  * Text Domain: gq-locale
@@ -24,7 +24,7 @@
  * Domain Path: /lang
  */
 // If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) { 
+if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 // If this file is called directly, abort.
