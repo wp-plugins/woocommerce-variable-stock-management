@@ -84,47 +84,49 @@ class catchaddtocart{
   /**
    *
    */
-   public function filter_woocommerce_add_to_cart_validation($valid, $product_id, $quantity, $variation_id, $variations ){
+   public function filter_woocommerce_add_to_cart_validation($valid, $product_id, $quantity, $variation_id = '', $variations = '' ){
      global $woocommerce;
 
      $product 			= wc_get_product( $product_id );
-     $deductornot 	= get_post_meta( $variation_id, '_deductornot', true );
-     $deductamount 	= get_post_meta( $variation_id, '_deductamount', true );
-     $getvarclass   = new WC_Product_Variation($variation_id);
-     //reset($array);
-     $aatrs         = $getvarclass->get_variation_attributes();
-     foreach($aatrs as $key => $value){
-       $slug = $value;
-       $cat  = str_replace('attribute_', '', $key);
-     }
-     $titlevaria 	  = get_term_by('slug', $slug, $cat );
+		if($product->product_type === "variable"){
+		     $deductornot 	= get_post_meta( $variation_id, '_deductornot', true );
+		     $deductamount 	= get_post_meta( $variation_id, '_deductamount', true );
+		     $getvarclass   = new WC_Product_Variation($variation_id);
+		     //reset($array);
+		     $aatrs         = $getvarclass->get_variation_attributes();
+		     foreach($aatrs as $key => $value){
+		       $slug = $value;
+		       $cat  = str_replace('attribute_', '', $key);
+		     }
+		     $titlevaria 	  = get_term_by('slug', $slug, $cat );
 
-     $backorder     = get_post_meta( $product->post->ID, '_backorders', true );
+		     $backorder     = get_post_meta( $product->post->ID, '_backorders', true );
 
-     $string        = WC_Cart::get_item_data( $cart_item, $flat );
+		     $string        = WC_Cart::get_item_data( $cart_item, $flat );
 
-     //var_dump($string);
-     if($backorder == 'no'){
-         if($deductornot == "yes"){
-           $currentstock 	= $product->get_stock_quantity();
+		     //var_dump($string);
+		     if($backorder == 'no'){
+		         if($deductornot == "yes"){
+		           $currentstock 	= $product->get_stock_quantity();
 
-           $reduceamount	= intval($quantity) * intval($deductamount);
-           $currentavail  = intval($currentstock / $deductamount);
+		           $reduceamount	= intval($quantity) * intval($deductamount);
+		           $currentavail  = intval($currentstock / $deductamount);
 
 
-            if($reduceamount > $currentstock){
-              $valid = false;
-              wc_add_notice( ''.__( 'You that goes over our availble stock amount.' , 'woocommerce' ) . __( 'We have: ' , 'woocommerce' ) . $currentavail .' '. $product->post->post_title .' ' .$titlevaria->name.'\'s '.__( ' available.' , 'woocommerce' ) , 'error' );
-              return $valid;
-            }else{
-              $valid = true;
-              return $valid;
-            }
+		            if($reduceamount > $currentstock){
+		              $valid = false;
+		              wc_add_notice( ''.__( 'You that goes over our availble stock amount.' , 'woocommerce' ) . __( 'We have: ' , 'woocommerce' ) . $currentavail .' '. $product->post->post_title .' ' .$titlevaria->name.'\'s '.__( ' available.' , 'woocommerce' ) , 'error' );
+		              return $valid;
+		            }else{
+		              $valid = true;
+		              return $valid;
+		            }
 
-         }else{
-           return true;
-         }
-    }
+		         }else{
+		           return true;
+		         }
+		    }
+		}
      return true;
 
    }
