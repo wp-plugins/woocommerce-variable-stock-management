@@ -8,10 +8,7 @@
  * @link      http://buildawebdoctor.com
  * @copyright 2-7-2015 BAWD
  */
-// If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) { 
-    exit; // Exit if accessed directly
-}
+
 /**
  * GQ class.
  *
@@ -66,17 +63,16 @@ class Variable_product_stock_reduction{
 	private function __construct() {
 
 		//Display Fields
-		add_action( 'woocommerce_product_after_variable_attributes', array($this, 'variable_fields' ), 10, 2 );
+		add_action( 'woocommerce_product_after_variable_attributes', array($this, 'variable_fields' ), 10, 3 );
 		//JS to add fields for new variations
 		add_action( 'woocommerce_product_after_variable_attributes_js', array($this, 'variable_fields_js') );
 		//Save variation fields
 		add_action( 'woocommerce_process_product_meta_variable', array($this, 'save_variable_fields'), 10, 1 );
 		//
-		//add_action( "woocommerce_checkout_order_processed", array($this, 'update_stock_on_checkout') );
-		add_action( "woocommerce_payment_complete", array($this, 'update_stock_on_checkout') );
+		add_action( "woocommerce_checkout_order_processed", array($this, 'update_stock_on_checkout_nopayment') );
+		//add_action( "woocommerce_payment_complete", array($this, 'update_stock_on_checkout') );
 		//Stop woocommerce from reducing stock amounts
-		add_filter( 'woocommerce_payment_complete_reduce_order_stock', '__return_false' );
-
+		//add_filter( 'woocommerce_payment_complete_reduce_order_stock', '__return_false' );
 	}
 	/**
 	 * Return an instance of this class.
@@ -98,18 +94,20 @@ class Variable_product_stock_reduction{
 	 * Create new fields for variations
 	 *
 	*/
-	public function variable_fields( $loop, $variation_data ) {
+	public function variable_fields( $loop, $variation_data, $varPost ) {
+		$post_id 	= $varPost->ID;
+		$meta 		= get_post_meta( $post_id );
 		?>
 		<tr>
 			<td>
 				<?php
 				// Select
-				woocommerce_wp_select( 
-				array( 
-					'id'          => '_deductornot['.$loop.']', 
-					'label'       => __( 'Deduct from stock total', 'woocommerce' ), 
+				woocommerce_wp_select(
+				array(
+					'id'          => '_deductornot['.$loop.']',
+					'label'       => __( 'Deduct from stock total', 'woocommerce' ),
 					'description' => __( 'Choose a value.', 'woocommerce' ),
-					'value'       => $variation_data['_deductornot'][0],
+					'value'       => $meta['_deductornot'][0],
 					'options' => array(
 						'no'   => __( 'No', 'woocommerce' ),
 						'yes'   => __( 'Yes', 'woocommerce' ),
@@ -123,22 +121,22 @@ class Variable_product_stock_reduction{
 			<td>
 				<?php
 				// Number Field
-				woocommerce_wp_text_input( 
-					array( 
-						'id'          => '_deductamount['.$loop.']', 
-						'label'       => __( 'Amount to deduct from total', 'woocommerce' ), 
+				woocommerce_wp_text_input(
+					array(
+						'id'          => '_deductamount['.$loop.']',
+						'label'       => __( 'Amount to deduct from total', 'woocommerce' ),
 						'desc_tip'    => 'true',
 						'description' => __( 'The amount of stock to deduct from the product total stock upon purchase.', 'woocommerce' ),
-						'value'       => $variation_data['_deductamount'][0],
+						'value'       => $meta['_deductamount'][0],
 						'custom_attributes' => array(
 										'step' 	=> 'any',
 										'min'	=> '0'
-									) 
+									)
 					)
 				);
 				?>
 			</td>
-		</tr>	
+		</tr>
 		<?php
 	}
 
@@ -152,10 +150,10 @@ class Variable_product_stock_reduction{
 						<td>
 							<?php
 							// Select
-							woocommerce_wp_select( 
-							array( 
-								'id'          => '_deductornot[ + loop + ]', 
-								'label'       => __( 'Deduct from stock total', 'woocommerce' ), 
+							woocommerce_wp_select(
+							array(
+								'id'          => '_deductornot[ + loop + ]',
+								'label'       => __( 'Deduct from stock total', 'woocommerce' ),
 								'description' => __( 'Choose a value.', 'woocommerce' ),
 								'value'       => $variation_data['_deductornot'][0],
 								'options' => array(
@@ -166,22 +164,22 @@ class Variable_product_stock_reduction{
 							);
 							?>
 						</td>
-					</tr>				
+					</tr>
 					<tr>
 						<td>
 							<?php
 							// Number Field
-							woocommerce_wp_text_input( 
-								array( 
-									'id'                => '_deductamount[ + loop + ]', 
-									'label'             => __( 'Amount to deduct from total', 'woocommerce' ), 
+							woocommerce_wp_text_input(
+								array(
+									'id'                => '_deductamount[ + loop + ]',
+									'label'             => __( 'Amount to deduct from total', 'woocommerce' ),
 									'desc_tip'          => 'true',
 									'description'       => __( 'The amount of stock to deduct from the product total stock upon purchase.', 'woocommerce' ),
 									'value'             => $variation_data['_deductamount'][0],
 									'custom_attributes' => array(
 													'step' 	=> 'any',
 													'min'	=> '0'
-												) 
+												)
 								)
 							);
 							?>
@@ -199,8 +197,8 @@ class Variable_product_stock_reduction{
 
 					$variable_sku          = $_POST['variable_sku'];
 					$variable_post_id      = $_POST['variable_post_id'];
-					
-					
+
+
 					// Number Field
 					$_deductamount = $_POST['_deductamount'];
 					for ( $i = 0; $i < sizeof( $variable_sku ); $i++ ) :
@@ -209,8 +207,8 @@ class Variable_product_stock_reduction{
 							update_post_meta( $variation_id, '_deductamount', stripslashes( $_deductamount[$i] ) );
 						}
 					endfor;
-					
-					
+
+
 					// Select
 					$_deductornot = $_POST['_deductornot'];
 					for ( $i = 0; $i < sizeof( $variable_sku ); $i++ ) :
@@ -219,20 +217,20 @@ class Variable_product_stock_reduction{
 							update_post_meta( $variation_id, '_deductornot', stripslashes( $_deductornot[$i] ) );
 						}
 					endfor;
-	
+
 				endif;
 	}
 	/**
-	 * 
+	 *
 	 */
 	public function update_stock_on_checkout($order_id){
 		global $woocommerce;
 
 		// order object (optional but handy)
-		
+
 		$order 			= new WC_Order( $order_id );
 		$items 			= $order->get_items();
-		$varation_ids 	= array();	
+		$varation_ids 	= array();
 		$i 				= 0;
 
 		foreach ($items as $key => $value) {
@@ -243,7 +241,49 @@ class Variable_product_stock_reduction{
 			$i++;
 		}
 		foreach($variation_ids as $key => $value){
-		
+
+			$deductornot 	= get_post_meta( $value["variation_id"], '_deductornot', true );;
+			$deductamount 	= get_post_meta( $value["variation_id"], '_deductamount', true );;
+			$product_id		= $value['product_id'];
+			$qty					= $value['qty'];
+			$product 			= wc_get_product( $product_id );
+
+			if($deductornot == "yes"){
+				$currentstock 	= $product->get_stock_quantity();
+				$reduceamount	= intval($qty) * intval($deductamount - $qty);
+				$newstock 		= intval($currentstock) - $reduceamount;
+				$updatestock 	= $product->set_stock( $newstock );;
+
+			}else{
+				$product->reduce_stock( $qty );
+			}
+
+		}
+		//return false;
+		//die();
+	}
+	/**
+	*
+	*/
+	public function update_stock_on_checkout_nopayment($order_id){
+		global $woocommerce;
+
+		// order object (optional but handy)
+
+		$order 			= new WC_Order( $order_id );
+		$items 			= $order->get_items();
+		$varation_ids 	= array();
+		$i 				= 0;
+
+		foreach ($items as $key => $value) {
+			# code...
+			$variation_ids[$i]['variation_id'] 	= $value['variation_id'];
+			$variation_ids[$i]['product_id'] 	= $value['product_id'];
+			$variation_ids[$i]['qty']			= $value['qty'];
+			$i++;
+		}
+		foreach($variation_ids as $key => $value){
+
 			$deductornot 	= get_post_meta( $value["variation_id"], '_deductornot', true );;
 			$deductamount 	= get_post_meta( $value["variation_id"], '_deductamount', true );;
 			$product_id		= $value['product_id'];
@@ -252,10 +292,10 @@ class Variable_product_stock_reduction{
 
 			if($deductornot == "yes"){
 				$currentstock 	= $product->get_stock_quantity();
-				$reduceamount	= intval($qty) * intval($deductamount);
-				$newstock 		= intval($currentstock) - $reduceamount; 
+				$reduceamount	= ( intval($qty) * intval($deductamount) ) - intval($qty);
+				$newstock 		= intval($currentstock) - $reduceamount;
 				$updatestock 	= $product->set_stock( $newstock );;
-								
+
 			}else{
 				$product->reduce_stock( $qty );
 			}
