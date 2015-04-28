@@ -134,7 +134,7 @@ class catchaddtocart{
    *@TODO implement max min quanties on picker
    */
   public function jk_woocommerce_available_variation( $args ) {
-/*
+
       global $product;
       //defaults
       $variation_ids = array();
@@ -156,7 +156,7 @@ class catchaddtocart{
   	   $args['max_qty'] = 80; 		// Maximum value (variations)
        $args['min_qty'] = 2;   	// Minimum value (variations)
        return $args;
-*/
+
   }
 
 }

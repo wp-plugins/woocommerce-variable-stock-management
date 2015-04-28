@@ -258,6 +258,7 @@ class Variable_product_stock_reduction{
 				$product->reduce_stock( $qty );
 			}
 
+
 		}
 		//return false;
 		//die();
@@ -266,7 +267,7 @@ class Variable_product_stock_reduction{
 	*
 	*/
 	public function update_stock_on_checkout_nopayment($order_id){
-		global $woocommerce;
+		global $woocommerce, $wpdb;
 
 		// order object (optional but handy)
 
@@ -299,8 +300,16 @@ class Variable_product_stock_reduction{
 			}else{
 				$product->reduce_stock( $qty );
 			}
-
+			// Clear caches
 		}
+		// delete all "namespace" transients
+		$sql = "DELETE FROM {$wpdb->options} WHERE option_name like '\_transient\_timeout\_wc\_%' ";
+
+		$wpdb->query($sql);
+		/*
+
+			var_dump($del);
+		*/
 		//return false;
 		//die();
 	}

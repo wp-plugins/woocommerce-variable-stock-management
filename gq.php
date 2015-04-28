@@ -15,7 +15,7 @@
  * Plugin Name: GQ
  * Plugin URI:  http://buildawebdoctor.com
  * Description: import categories for gq
- * Version:     1.1.0
+ * Version:     1.1.2
  * Author:      vimes1984
  * Author URI:  http://buildawebdoctor.com
  * Text Domain: gq-locale
