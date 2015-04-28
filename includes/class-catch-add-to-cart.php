@@ -62,7 +62,7 @@ class catchaddtocart{
 	 */
 	private function __construct() {
 
-    add_filter( 'woocommerce_available_variation', array($this, 'jk_woocommerce_available_variation') );
+    //add_filter( 'woocommerce_available_variation', array($this, 'jk_woocommerce_available_variation') );
     add_filter( 'woocommerce_add_to_cart_validation', array($this,'filter_woocommerce_add_to_cart_validation'), 10, 10 );
 	}
 	/**
