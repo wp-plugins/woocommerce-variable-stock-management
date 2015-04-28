@@ -15,7 +15,7 @@
  * Plugin Name: GQ
  * Plugin URI:  http://buildawebdoctor.com
  * Description: import categories for gq
- * Version:     1.0.6
+ * Version:     1.0.7
  * Author:      vimes1984
  * Author URI:  http://buildawebdoctor.com
  * Text Domain: gq-locale
@@ -32,7 +32,7 @@ if (!defined("WPINC")) {
 	die;
 }
 
-require_once(plugin_dir_path(__FILE__) . "GQ.php");
+require_once(plugin_dir_path(__FILE__) . "GQ_class.php");
 require_once(plugin_dir_path(__FILE__) . "includes/class-variable-product-stock-reduction.php");
 require_once(plugin_dir_path(__FILE__) . "includes/class-catch-add-to-cart.php");
 require_once(plugin_dir_path(__FILE__) . "includes/class-import-categories.php");
